@@ -78,8 +78,8 @@ train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=bat
 num_epochs = 10
 
 train_start = time.time()
-for _ in range(num_epochs):
-    pbar = tqdm(train_loader)
+for epoch in range(num_epochs):
+    pbar = tqdm(train_loader, desc=f'epoch {epoch}')
     for batch in pbar:
         inputs, _ = batch
         x = inputs.view(-1, 1, width, height).to('cuda')
