@@ -51,20 +51,23 @@ class Decoder(nn.Module):
 class AutoEncoder(nn.Module):
     def __init__(self, width, height, hidden_dim):
         super().__init__()
-        self.encoder = Encoder(width, height, hidden_dim)
-        self.decoder = Decoder(width, height, hidden_dim)
+        self.encoder = Encoder(width, height, hidden_dim).cuda(0)
+        self.decoder = Decoder(width, height, hidden_dim).cuda(1)
 
     def forward(self, x):
+        device = x.device
+        x = x.cuda(0)
         z = self.encoder(x)
+        z = z.cuda(1)
         x_hat = self.decoder(z)
-        return x_hat, z
+        return x_hat.to(device), z.to(device)
 
 
 width = 28
 height = 28
 hidden_dim = 32
 
-model = AutoEncoder(width, height, hidden_dim).cuda()
+model = AutoEncoder(width, height, hidden_dim)
 model.train()
 
 criterion = nn.MSELoss()
@@ -82,7 +85,7 @@ for epoch in range(num_epochs):
     pbar = tqdm(train_loader, desc=f'epoch {epoch}')
     for batch in pbar:
         inputs, _ = batch
-        x = inputs.view(-1, 1, width, height).cuda()
+        x = inputs.view(-1, 1, width, height).cuda(0)
         optimizer.zero_grad()
         x_hat, z = model(x)
         loss = criterion(x_hat, x)
