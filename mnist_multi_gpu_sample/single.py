@@ -62,7 +62,7 @@ class AutoEncoder(nn.Module):
 
 width = 28
 height = 28
-hidden_dim = 16
+hidden_dim = 32
 
 model = AutoEncoder(width, height, hidden_dim).to('cuda')
 model.train()
