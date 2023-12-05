@@ -78,7 +78,8 @@ model.train()
 os.environ['MASTER_ADDR'] = 'localhost'
 os.environ['MASTER_PORT'] = '29500'
 torch.distributed.rpc.init_rpc('worker', rank=0, world_size=1)
-model_pipeline = Pipe(model.model_pipeline(), chunks=2)
+chunks = 8
+model_pipeline = Pipe(model.model_pipeline(), chunks=chunks)
 
 criterion = nn.MSELoss()
 
@@ -86,7 +87,7 @@ optimizer = optim.Adam(model.parameters())
 
 batch_size = 32
 
-train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
+train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=batch_size*chunks, shuffle=True)
 
 num_epochs = 10
 
