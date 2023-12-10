@@ -87,7 +87,7 @@ optimizer = optim.Adam(model.parameters())
 
 batch_size = 32
 
-train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=batch_size*chunks, shuffle=True)
+train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=batch_size*chunks, shuffle=True, num_workers=os.cpu_count(), pin_memory=True)
 
 num_epochs = 10
 

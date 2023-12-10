@@ -6,6 +6,7 @@ import torchvision.transforms as transform
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 import time
+import os
 
 train_dataset = torchvision.datasets.MNIST(root='./data', train=True, transform=transform.ToTensor(), download = True)
 test_dataset = torchvision.datasets.MNIST(root='./data', train=False, transform=transform.ToTensor(), download = True)
@@ -73,7 +74,7 @@ optimizer = optim.Adam(model.parameters())
 
 batch_size = 32
 
-train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
+train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True, num_workers=os.cpu_count(), pin_memory=True)
 
 num_epochs = 10
 
