@@ -1,3 +1,4 @@
 data/
 poetry.lock
 outputs/*.png
+mnist_multi_gpu_sample/__pycache__/
