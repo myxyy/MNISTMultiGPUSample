@@ -42,7 +42,7 @@ os.environ['MASTER_ADDR'] = 'localhost'
 os.environ['MASTER_PORT'] = '29500'
 torch.distributed.rpc.init_rpc('worker', rank=0, world_size=1)
 chunks = 8
-model_pipeline = Pipe(model.model_pipeline(), chunks=chunks)
+model_pipeline = Pipe(model.model_pipeline(), chunks=chunks, checkpoint='never')
 
 criterion = nn.MSELoss()
 
